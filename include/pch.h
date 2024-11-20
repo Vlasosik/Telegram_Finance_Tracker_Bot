@@ -6,4 +6,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
+#include <ranges>
+#include <algorithm>
 #endif //PCH_H
