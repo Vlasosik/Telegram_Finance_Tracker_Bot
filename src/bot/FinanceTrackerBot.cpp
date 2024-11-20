@@ -8,7 +8,7 @@ FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
 
 [[noreturn]] void FinanceTrackerBot::run() const {
     TgBot::TgLongPoll long_poll(bot);
-    std::cout << bot.getApi().getMyName() << ": started.\n";
+    std::cout << bot.getApi().getMyName()->name << ": started.\n";
     while (true) {
         long_poll.start();
     }
@@ -18,15 +18,48 @@ void FinanceTrackerBot::setUp() {
     bot.getEvents().onCommand("start", [this](const TgBot::Message::Ptr &message) {
         bot.getApi().sendMessage(message->chat->id,
                                  "Вас вітає телеграм який допоможе краще керувати вашими фінанасами.");
-        sendInlineKeyboard(message->chat->id);
+        sendMainBar(message->chat->id);
     });
     bot.getEvents().onCallbackQuery([this](const TgBot::CallbackQuery::Ptr &query) {
-        const std::string response = "ok :~)";
-        bot.getApi().sendMessage(query->message->chat->id, response, nullptr, nullptr);
+        auto dataFromUser = query->data;
+        if (dataFromUser == "Категорії") {
+            sendCategoryBar(query->message->chat->id);
+        } else if (dataFromUser == "Назад") {
+            sendMainBar(query->message->chat->id);
+        }else {
+            addCategory(query->message->chat->id, dataFromUser);
+        }
     });
 }
 
-void FinanceTrackerBot::sendInlineKeyboard(int64_t id) const {
+void FinanceTrackerBot::addCategory(int64_t userId, const std::string &category) {
+    auto range = chosenCategories.equal_range(userId);
+    for (auto it = range.first; it != range.second; ++it) {
+        if (it->second == category) {
+            bot.getApi().sendMessage(userId, "Категорія \"" + category + "\" вже була додана.");
+            return;
+        }
+    }
+    chosenCategories.emplace(userId, category);
+    bot.getApi().sendMessage(userId, "Категорія \"" + category + "\" додана до вибраних.");
+}
+
+
+void FinanceTrackerBot::sendMainBar(int64_t userId) const {
+    const auto keyboard = std::make_shared<TgBot::InlineKeyboardMarkup>();
+    std::vector<std::string> buttonCategory{"Категорії", "Управління витратами", "Допомога"};
+    for (const auto &nameButton: buttonCategory) {
+        const auto button = std::make_shared<TgBot::InlineKeyboardButton>();
+        button->text = nameButton;
+        button->callbackData = nameButton;
+        keyboard->inlineKeyboard.push_back({button});
+    }
+    auto message = bot.getApi().sendMessage(
+        userId, "Виберіть що вас цікавить:",
+        nullptr, nullptr, keyboard);
+}
+
+void FinanceTrackerBot::sendCategoryBar(int64_t userId) const {
     const auto keyboard = std::make_shared<TgBot::InlineKeyboardMarkup>();
 
     auto buttonFood = std::make_shared<TgBot::InlineKeyboardButton>();
@@ -66,7 +99,12 @@ void FinanceTrackerBot::sendInlineKeyboard(int64_t id) const {
     buttonEducationAndSelfDevelopment->callbackData = "Education and development";
     keyboard->inlineKeyboard.push_back({buttonPersonalExpenses, buttonEducationAndSelfDevelopment});
 
+    auto buttonBack = std::make_shared<TgBot::InlineKeyboardButton>();
+    buttonBack->text = "Назад";
+    buttonBack->callbackData = "Назад";
+    keyboard->inlineKeyboard.push_back({buttonBack});
+
     auto message = bot.getApi().sendMessage(
-        id, "Виберіть позицію або декілька позицій для відслідковування ваших фінансів😊",
+        userId, "Виберіть позицію або декілька позицій для відслідковування ваших фінансів😊",
         nullptr, nullptr, keyboard);
 }
