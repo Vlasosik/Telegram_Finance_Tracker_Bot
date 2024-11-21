@@ -22,6 +22,14 @@ add_executable(telegram_finance_tracker_bot ${SRC_FILES} main.cpp
         src/bot/command/StartCommand.cpp
         include/bot/ui_manager/UIManager.h
         src/bot/ui_manager/UIManager.cpp
+        include/bot/command/CategoryCommand.h
+        src/bot/command/CategoryCommand.cpp
+        include/bot/command/HelpCommand.h
+        src/bot/command/HelpCommand.cpp
+        include/bot/command/BackCommand.h
+        src/bot/command/BackCommand.cpp
+        include/bot/command/InfoCommand.h
+        src/bot/command/InfoCommand.cpp
 )
 
 target_precompile_headers(telegram_finance_tracker_bot PRIVATE include/pch.h)
