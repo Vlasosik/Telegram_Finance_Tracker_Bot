@@ -10,7 +10,7 @@ int main() {
     if (!token) {
         throw std::runtime_error("TOKEN_BOT is not set in the environment variables");
     }
-    const FinanceTrackerBot telegram_bot(token);
-    telegram_bot.run();
+    FinanceTrackerBot telegram_bot(token);
+    telegram_bot.Run();
 }
 
