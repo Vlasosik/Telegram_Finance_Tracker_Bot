@@ -2,7 +2,7 @@
 
 void UIManager::sendMainBar(const TgBot::Bot &bot, int64_t userId) {
     const auto keyboard = std::make_shared<TgBot::InlineKeyboardMarkup>();
-    for (const std::vector<std::string> buttons{"Категорії", "Управління категоріями", "Допомога"};
+    for (const std::vector<std::string> buttons{"Доступні категорії", "Управління категоріями", "Допомога"};
          const auto &button: buttons) {
         auto createInlineButton = std::make_shared<TgBot::InlineKeyboardButton>();
         createInlineButton->text = button;
@@ -62,4 +62,21 @@ void UIManager::sendCategoryBar(const TgBot::Bot &bot, int64_t userId) {
     auto message = bot.getApi().sendMessage(
         userId, "Оберіть категорії які вас цікавлять ✅",
         nullptr, nullptr, keyboard);
+}
+
+void UIManager::sendCategoryManagementBar(const TgBot::Bot &bot, int64_t userId) {
+    const auto keyboard = std::make_shared<TgBot::InlineKeyboardMarkup>();
+    for (const std::vector<std::string> buttons{
+             "Додати транзакцію", "Видалити транзакцію", "Оновити транзакцію",
+             "Список транзакцій", "Список транзакцій за тиждень", "Список транзакцій за місяць",
+                "Cума транзакцій за тиждень", "Сума транзакцій за місяць"
+         };
+         const auto &button: buttons) {
+        auto createInlineButton = std::make_shared<TgBot::InlineKeyboardButton>();
+        createInlineButton->text = button;
+        createInlineButton->callbackData = button;
+        keyboard->inlineKeyboard.push_back({createInlineButton});
+    }
+    auto message = bot.getApi().sendMessage(userId, "Оберіть що вас цікавить👇🏻",
+                                            nullptr, nullptr, keyboard);
 }
