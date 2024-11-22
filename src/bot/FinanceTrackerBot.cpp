@@ -70,7 +70,7 @@ void FinanceTrackerBot::registerCallbacks() {
 void FinanceTrackerBot::handleCommandMessage(const std::string &command, const TgBot::Message::Ptr &message) {
     if (commands.contains(command)) {
         commands[command]->Execute(bot, message);
-    }else {
+    } else {
         bot.getApi().sendMessage(message->chat->id, "Невідома команда: " + command);
     }
 }
