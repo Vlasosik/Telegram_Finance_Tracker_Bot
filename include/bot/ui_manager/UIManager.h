@@ -9,7 +9,6 @@ public:
 
     static void sendCategoryBar(const TgBot::Bot &bot, int64_t userId);
 
-    static void updateCategoryBar(const TgBot::Bot &bot, int64_t userId,
-                                  const std::unordered_set<std::string> &selectedCategories);
+    static void sendCategoryManagementBar(const TgBot::Bot &bot, int64_t userId);
 };
 #endif //UIMANAGER_H
