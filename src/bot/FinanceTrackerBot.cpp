@@ -17,8 +17,18 @@ void FinanceTrackerBot::registerCommand() {
 }
 
 void FinanceTrackerBot::registerCallbacks() {
-    callbackQueries["Категорії"] = [this](const TgBot::CallbackQuery::Ptr &query) {
+    callbackQueries["Доступні категорії"] = [this](const TgBot::CallbackQuery::Ptr &query) {
         UIManager::sendCategoryBar(bot, query->message->chat->id);
+    };
+    callbackQueries["Управління категоріями"] = [this](const TgBot::CallbackQuery::Ptr &query) {
+        UIManager::sendCategoryManagementBar(bot, query->message->chat->id);
+    };
+    callbackQueries["Допомога"] = [this](const TgBot::CallbackQuery::Ptr &query) {
+        bot.getApi().sendMessage(query->message->chat->id,
+                                 "Цей бот допомагає вам вести облік витрат і категорій, створювати фінансові звіти та"
+                                 " аналізувати свої фінанси для кращого планування бюджету🤓📝\n"
+                                 "Використовуйте цього бота для відстеження витрат, автоматичного підрахунку звітів та "
+                                 "управління своїми фінансами, щоб досягти фінансової стабільності💪🏻✨");
     };
     callbackQueries["Їжа"] = [this](const TgBot::CallbackQuery::Ptr &query) {
         userSelectedCategories[query->message->chat->id].emplace(query->data);
@@ -60,7 +70,7 @@ void FinanceTrackerBot::registerCallbacks() {
 void FinanceTrackerBot::handleCommandMessage(const std::string &command, const TgBot::Message::Ptr &message) {
     if (commands.contains(command)) {
         commands[command]->Execute(bot, message);
-    }else {
+    } else {
         bot.getApi().sendMessage(message->chat->id, "Невідома команда: " + command);
     }
 }
