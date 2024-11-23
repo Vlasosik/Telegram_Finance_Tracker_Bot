@@ -2,10 +2,8 @@
 
 #include <tgbot/net/TgLongPoll.h>
 
-#include "bot/command/BackCommand.h"
-#include "bot/command/HelpCommand.h"
-#include "bot/command/InfoCommand.h"
-#include "bot/command/StartCommand.h"
+#include "bot/message_command/InfoMessageCommand.h"
+#include "bot/message_command/StartMessageCommand.h"
 #include "bot/ui_manager/UIManager.h"
 
 FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
@@ -14,9 +12,8 @@ FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
 }
 
 void FinanceTrackerBot::registerCommand() {
-    commands["/start"] = std::make_shared<StartCommand>();
-    commands["/help"] = std::make_shared<HelpCommand>();
-    // made command info
+    commands["/start"] = std::make_shared<StartMessageCommand>();
+    commands["/info"] = std::make_shared<InfoMessageCommand>();
 }
 
 void FinanceTrackerBot::registerCallbacks() {

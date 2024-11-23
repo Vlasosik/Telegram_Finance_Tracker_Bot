@@ -1,6 +1,6 @@
-#include "bot/command/InfoCommand.h"
+#include "bot/command/HelpCommand.h"
 
-void InfoCommand::Execute(TgBot::Bot &bot, const TgBot::Message::Ptr &message) {
+void HelpCommand::Execute(TgBot::Bot &bot, const TgBot::Message::Ptr &message) {
     bot.getApi().sendMessage(message->chat->id,
                              "Цей бот допомагає вам вести облік витрат і категорій, створювати фінансові звіти та"
                              " аналізувати свої фінанси для кращого планування бюджету🤓📝\n"

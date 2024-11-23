@@ -1,10 +1,11 @@
 #ifndef STARTCOMMAND_H
 #define STARTCOMMAND_H
-#include "Command.h"
+#include "MessageCommand.h"
 
-class StartCommand : public Command{
+class StartMessageCommand : public MessageCommand{
 public:
     void Execute(TgBot::Bot &bot, const TgBot::Message::Ptr &message) override;
+
 
 };
 #endif //STARTCOMMAND_H
