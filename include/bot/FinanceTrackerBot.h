@@ -3,13 +3,13 @@
 #include <tgbot/Bot.h>
 #include <pch.h>
 
-#include "command/Command.h"
 #include "finance_manager/FinanceManager.h"
+#include "message_command/MessageCommand.h"
 
 class FinanceTrackerBot {
     TgBot::Bot bot;
     FinanceManager finance_manager;
-    std::unordered_map<std::string, std::shared_ptr<Command> > commands;
+    std::unordered_map<std::string, std::shared_ptr<MessageCommand> > commands{};
     std::unordered_map<std::string, std::function<void(const TgBot::Message::Ptr &)> > callbackMessages;
     std::unordered_map<std::string, std::function<void(const TgBot::CallbackQuery::Ptr &)> > callbackQueries;
     std::unordered_map<int64_t, std::unordered_set<std::string> > userSelectedCategories;
