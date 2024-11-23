@@ -1,8 +1,8 @@
 #ifndef INFOCOMMAND_H
 #define INFOCOMMAND_H
-#include "Command.h"
+#include "MessageCommand.h"
 
-class InfoCommand : public  Command{
+class InfoMessageCommand : public  MessageCommand{
 public:
     void Execute(TgBot::Bot &bot, const TgBot::Message::Ptr &message) override;
 };
