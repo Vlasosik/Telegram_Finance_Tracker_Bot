@@ -1,18 +1,16 @@
 #ifndef TELEGRAMBOT_H
 #define TELEGRAMBOT_H
 #include <tgbot/Bot.h>
-#include <pch.h>
 
+#include "callback_command/CallbackCommand.h"
 #include "finance_manager/FinanceManager.h"
 #include "message_command/MessageCommand.h"
 
 class FinanceTrackerBot {
     TgBot::Bot bot;
     FinanceManager finance_manager;
-    std::unordered_map<std::string, std::shared_ptr<MessageCommand> > commands{};
-    std::unordered_map<std::string, std::function<void(const TgBot::Message::Ptr &)> > callbackMessages;
-    std::unordered_map<std::string, std::function<void(const TgBot::CallbackQuery::Ptr &)> > callbackQueries;
-    std::unordered_map<int64_t, std::unordered_set<std::string> > userSelectedCategories;
+    std::unordered_map<std::string, std::shared_ptr<MessageCommand> > messageCommands;
+    std::unordered_map<std::string, std::shared_ptr<CallbackCommand> > callbackCommands;
 
 public:
     explicit FinanceTrackerBot(const std::string &token);
@@ -23,9 +21,9 @@ public:
 
     void handleCommandMessage(const std::string &command, const TgBot::Message::Ptr &message);
 
-    void handleCallbackMessages(const std::string &command, const TgBot::Message::Ptr &message);
-
     void handleCallbackQuery(const std::string &command, const TgBot::CallbackQuery::Ptr &query);
+
+    void handleTextMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message);
 
     [[noreturn]] void Run();
 };
