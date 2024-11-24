@@ -24,6 +24,23 @@ add_executable(telegram_finance_tracker_bot ${SRC_FILES} main.cpp
         include/bot/message_command/InfoMessageCommand.h
         src/bot/message_command/InfoMessageCommand.cpp
         include/bot/message_command/MessageCommand.h
+        include/bot/callback_command/CallbackCommand.h
+        include/bot/callback_command/CallbackAvailableСategories.h
+        src/bot/callback_command/CallbackAvailableCategories.cpp
+        include/bot/callback_command/CallbackSelectedCategories.h
+        src/bot/callback_command/CallbackSelectedCategories.cpp
+        include/bot/callback_command/CallbackHelp.h
+        src/bot/callback_command/CallbackHelp.cpp
+        include/bot/callback_command/CallbackBack.h
+        src/bot/callback_command/CallbackBack.cpp
+        include/bot/callback_command/CallbackCategoryManagement.h
+        src/bot/callback_command/CallbackCategoryManagement.cpp
+        include/bot/callback_command/CallbackAddTransaction.h
+        src/bot/callback_command/CallbackAddTransaction.cpp
+        include/user/User.h
+        src/user/User.cpp
+        include/user/UserManager.h
+        src/user/UserManager.cpp
 )
 
 target_precompile_headers(telegram_finance_tracker_bot PRIVATE include/pch.h)
