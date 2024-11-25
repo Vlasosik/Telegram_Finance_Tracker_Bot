@@ -35,8 +35,6 @@ public:
 
     void setUserId(int64_t userId);
 
-    void setCategory(std::string category);
-
     void setAmount(double amount);
 
     void setTimePoint(time_point date);
@@ -47,6 +45,7 @@ public:
 
     static std::chrono::system_clock::time_point convertStringToTimePoint(const std::string &timeString,
                                                                           const std::string &format = "%d.%m.%Y");
-        [[nodiscard]] std::string toString() const;
-    };
+
+    [[nodiscard]] std::string toString() const;
+};
 #endif //TRANSACTION_H

@@ -6,15 +6,18 @@
 #include "bot/callback_command/CallbackAvailableСategories.h"
 #include "bot/callback_command/CallbackBack.h"
 #include "bot/callback_command/CallbackCategoryManagement.h"
+#include "bot/callback_command/CallbackGetListTransaction.h"
 #include "bot/callback_command/CallbackHelp.h"
 #include "bot/callback_command/CallbackSelectedCategories.h"
 #include "bot/message_command/InfoMessageCommand.h"
 #include "bot/message_command/StartMessageCommand.h"
+#include "bot/text_message/EnteringAmountHandler.h"
 #include "bot/ui_manager/UIManager.h"
 
 FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
     registerCommand();
     registerCallbacks();
+    registerTextMessages();
 }
 
 void FinanceTrackerBot::registerCommand() {
@@ -36,6 +39,11 @@ void FinanceTrackerBot::registerCallbacks() {
     }
     callbackCommands["Назад"] = std::make_shared<CallbackBack>();
     callbackCommands["Додати транзакцію"] = std::make_shared<CallbackAddTransaction>();
+    callbackCommands["Список транзакцій"] = std::make_shared<CallbackGetListTransaction>();
+}
+
+void FinanceTrackerBot::registerTextMessages() {
+    textMessages.emplace_back(std::make_unique<EnteringAmountHandler>());
 }
 
 void FinanceTrackerBot::handleCommandMessage(const std::string &command, const TgBot::Message::Ptr &message) {
@@ -54,22 +62,15 @@ void FinanceTrackerBot::handleCallbackQuery(const std::string &command, const Tg
     }
 }
 
-void FinanceTrackerBot::handleTextMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message) {
-    const int64_t userId = message->chat->id;
-    auto userManager = UserManager::getInstance();
-    userManager.getUser(userId);
-    if (userManager.getState(userId) == UserStateType::ENTERING_AMOUNT) {
-        try {
-            const auto amount = std::stod(message->text);
-            userManager.addTransactionByUser(userId, userManager.getUserSelectedCategory(userId), amount);
-            userManager.setState(userId, UserStateType::IDLE);
-            bot.getApi().sendMessage(message->chat->id, "Суму успішно додано.");
-        } catch (std::invalid_argument &ex) {
-            bot.getApi().sendMessage(userId, "Будь ласка, введіть коректне число для суми.");
+void FinanceTrackerBot::handleTextMessages(const TgBot::Message::Ptr &message) {
+    const int64_t userId = message->chat.get()->id;
+    for (const auto &handler: textMessages) {
+        if (handler->canHandle(userId, message)) {
+            handler->handleMessage(bot, message);
+            return;
         }
-    } else {
-        bot.getApi().sendMessage(userId, "Я не очікував введення суми. Використайте команду 'Додати транзакцію'.");
     }
+    bot.getApi().sendMessage(message->chat->id, "Я не розумію вашого повідомлення.");
 }
 
 
@@ -78,11 +79,14 @@ void FinanceTrackerBot::Run() {
                               [this](const TgBot::Message::Ptr &message) {
                                   handleCommandMessage(message->text, message);
                               });
-    bot.getEvents().onAnyMessage([this](const TgBot::Message::Ptr &message) {
-        handleTextMessage(bot, message);
-    });
     bot.getEvents().onCallbackQuery([this](const TgBot::CallbackQuery::Ptr &query) {
         handleCallbackQuery(query->data, query);
+    });
+
+    bot.getEvents().onAnyMessage([this](const TgBot::Message::Ptr &message) {
+        if (!message->text.empty() && message->text[0] != '/') {
+            handleTextMessages(message);
+        }
     });
     TgBot::TgLongPoll long_poll(bot);
     std::cout << bot.getApi().getMyName()->name << ": started.\n";

@@ -6,7 +6,6 @@
 
 class CallbackCommand {
 public:
-    UserManager userManager;
 
     virtual void ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) = 0;
 
