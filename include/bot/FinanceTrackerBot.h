@@ -5,12 +5,14 @@
 #include "callback_command/CallbackCommand.h"
 #include "finance_manager/FinanceManager.h"
 #include "message_command/MessageCommand.h"
+#include "text_message/TextMessage.h"
 
 class FinanceTrackerBot {
     TgBot::Bot bot;
     FinanceManager finance_manager;
     std::unordered_map<std::string, std::shared_ptr<MessageCommand> > messageCommands;
     std::unordered_map<std::string, std::shared_ptr<CallbackCommand> > callbackCommands;
+    std::vector<std::unique_ptr<TextMessage> > textMessages;
 
 public:
     explicit FinanceTrackerBot(const std::string &token);
@@ -19,11 +21,13 @@ public:
 
     void registerCallbacks();
 
+    void registerTextMessages();
+
     void handleCommandMessage(const std::string &command, const TgBot::Message::Ptr &message);
 
     void handleCallbackQuery(const std::string &command, const TgBot::CallbackQuery::Ptr &query);
 
-    void handleTextMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message);
+    void handleTextMessages(const TgBot::Message::Ptr &message);
 
     [[noreturn]] void Run();
 };
