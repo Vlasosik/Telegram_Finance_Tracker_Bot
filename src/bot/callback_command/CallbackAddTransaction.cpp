@@ -4,6 +4,7 @@
 
 void CallbackAddTransaction::ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) {
     int64_t userId = query->message->chat->id;
+    auto &userManager = UserManager::getInstance();
     userManager.getUser(userId);
     userManager.setState(userId, UserStateType::ENTERING_AMOUNT);
     if (userManager.hasUserSelectedCategory(userId)) {
