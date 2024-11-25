@@ -15,7 +15,7 @@ public:
 
     explicit FinanceManager(std::vector<Transaction> finance_manager);
 
-    void addTransaction(int64_t userId, const std::string& category, double amount);
+    void addTransaction(int64_t userId, const std::string &category, double amount);
 
     void removeTransaction(int64_t userId, const Transaction &transaction);
 
@@ -54,7 +54,5 @@ public:
     [[nodiscard]] double getWeekStatisticsByCategorySum(int64_t userId, const std::string &category);
 
     [[nodiscard]] std::vector<std::string> getUserCategory(int64_t userId) const;
-
-
 };
 #endif //FINANCEMANAGER_H

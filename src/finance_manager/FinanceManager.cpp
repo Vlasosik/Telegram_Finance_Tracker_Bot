@@ -42,14 +42,8 @@ FinanceManager::FinanceManager(std::vector<Transaction> finance_manager)
     : finance_manager(std::move(finance_manager)) {
 }
 
-void FinanceManager::addTransaction(int64_t userId, const std::string& category, double amount) {
+void FinanceManager::addTransaction(int64_t userId, const std::string &category, double amount) {
     auto now = std::chrono::system_clock::now();
-    for (auto &transaction : finance_manager) {
-        if (transaction.getUserId() == userId && transaction.getCategory() == category) {
-            transaction.setAmount(transaction.getAmount() + amount);
-            return;
-        }
-    }
     finance_manager.emplace_back(userId, category, amount, now);
 }
 
