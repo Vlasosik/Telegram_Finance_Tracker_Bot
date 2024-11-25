@@ -31,18 +31,6 @@ void Transaction::setUserId(const int64_t userId) {
     this->userId = userId;
 }
 
-void Transaction::setCategory(std::string category) {
-    std::vector<std::string> validCategory{
-        "Food", "Housing", "Clothing and Footwear", "Transport", "Family and children",
-        "Personal expenses", "Savings", "Education and development"
-    };
-    if (const auto it = std::ranges::find(validCategory, category); it == validCategory.end()
-                                                                    || category.empty()) {
-        throw std::invalid_argument("Invalid category");
-    }
-    this->category = std::move(category);
-}
-
 void Transaction::setAmount(const double amount) {
     if (amount < 0) {
         throw std::invalid_argument("Amount cannot be negative");
@@ -83,6 +71,9 @@ std::chrono::system_clock::time_point Transaction::convertStringToTimePoint(cons
 }
 
 std::string Transaction::toString() const {
-    return "User ID: " + std::to_string(userId) + ", Category: " + category +
-           ", Amount: " + std::to_string(amount) + ", Date: " + convertTimeToString(date);
+    std::ostringstream oss;
+    oss << "Категорія: " << category
+        << " Сума: " << std::fixed << std::setprecision(1) << amount
+        << " Дата: " << convertTimeToString(date);
+    return oss.str();
 }
