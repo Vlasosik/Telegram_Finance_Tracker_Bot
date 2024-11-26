@@ -5,7 +5,6 @@ void CallbackGetListTransaction::ExecuteCallback(TgBot::Bot &bot, const TgBot::C
     const auto &userManager = UserManager::getInstance();
     const auto transactions = userManager.getListTransaction(userId);
     std::ostringstream messageStream;
-    messageStream << "Ваш список транзакцій:\n";
 
     if (transactions.empty()) {
         messageStream << "У вас поки що немає транзакцій.";

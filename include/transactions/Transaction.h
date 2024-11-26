@@ -12,7 +12,7 @@ class Transaction {
 public:
     Transaction() = default;
 
-    Transaction(int64_t userId, std::string category, double amount, time_point date);
+    Transaction(int64_t userId, const std::string &category, double amount, time_point date);
 
     Transaction(const Transaction &other) = default;
 
@@ -44,7 +44,8 @@ public:
     static std::string convertTimeToString(time_point time);
 
     static std::chrono::system_clock::time_point convertStringToTimePoint(const std::string &timeString,
-                                                                          const std::string &format = "%d.%m.%Y");
+                                                                          const std::string
+                                                                          &format = "%d.%m.%Y %H:%M:%S");
 
     [[nodiscard]] std::string toString() const;
 };

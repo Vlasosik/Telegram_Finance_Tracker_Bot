@@ -32,5 +32,9 @@ public:
     void addTransactionByUser(int64_t userId, const std::string &category, double amount);
 
     [[nodiscard]] std::vector<Transaction> getListTransaction(int64_t userId) const;
+
+    void removeTransaction(int64_t userId, const Transaction &transaction);
+
+
 };
 #endif //USERMANAGER_H

@@ -38,8 +38,8 @@ bool FinanceManager::isWeekPassed(int64_t userId) {
     return duration.count() >= 7;
 }
 
-FinanceManager::FinanceManager(std::vector<Transaction> finance_manager)
-    : finance_manager(std::move(finance_manager)) {
+FinanceManager::FinanceManager(std::vector<Transaction> financeManager)
+    : finance_manager(std::move(financeManager)) {
 }
 
 void FinanceManager::addTransaction(int64_t userId, const std::string &category, double amount) {
@@ -51,12 +51,7 @@ void FinanceManager::removeTransaction(const int64_t userId, const Transaction &
     if (transaction.getUserId() != userId) {
         throw std::invalid_argument("Transaction does not belong to the user with the given ID");
     }
-    if (const auto it = std::ranges::find(finance_manager, transaction);
-        it != finance_manager.end()) {
-        finance_manager.erase(it);
-    } else {
-        throw std::invalid_argument("Transaction not found in the user's list");
-    }
+    finance_manager.erase(finance_manager.begin());
 }
 
 void FinanceManager::updateTransactionByAmount(const int64_t userId, const std::string &category,

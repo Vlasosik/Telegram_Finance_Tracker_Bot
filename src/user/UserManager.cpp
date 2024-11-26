@@ -51,3 +51,7 @@ void UserManager::addTransactionByUser(const int64_t userId, const std::string &
 std::vector<Transaction> UserManager::getListTransaction(const int64_t userId) const {
     return financeManager.getTransaction(userId);
 }
+
+void UserManager::removeTransaction(const int64_t userId, const Transaction &transaction) {
+    financeManager.removeTransaction(userId, transaction);
+}

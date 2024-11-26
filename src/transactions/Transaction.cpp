@@ -1,7 +1,10 @@
 #include "transactions/Transaction.h"
 
-Transaction::Transaction(const int64_t userId, std::string category, const double amount, const time_point date)
-    : userId(userId), category(std::move(category)), amount(amount), date(date) {
+
+Transaction::Transaction(const int64_t userId, const std::string &category, const double amount, const time_point date)
+    : userId(userId), category(category), amount(amount), date(date) {
+    std::cout << "Transaction created: UserId: " << userId << ", Category: " << category
+            << ", Amount: " << amount << ", Date: " << convertTimeToString(date) << std::endl;
 }
 
 bool Transaction::operator==(const Transaction &other) const {
@@ -55,7 +58,7 @@ void Transaction::setTimePoint(const std::string &date) {
 std::string Transaction::convertTimeToString(const time_point time) {
     const time_t time_t = std::chrono::system_clock::to_time_t(time);
     std::ostringstream oss;
-    oss << std::put_time(std::localtime(&time_t), "%d.%m.%Y");
+    oss << std::put_time(std::localtime(&time_t), "%d.%m.%Y %H:%M:%S");
     return oss.str();
 }
 
@@ -73,7 +76,7 @@ std::chrono::system_clock::time_point Transaction::convertStringToTimePoint(cons
 std::string Transaction::toString() const {
     std::ostringstream oss;
     oss << "Категорія: " << category
-        << " Сума: " << std::fixed << std::setprecision(1) << amount
-        << " Дата: " << convertTimeToString(date);
+            << " Сума: " << std::fixed << std::setprecision(1) << amount
+            << " Дата: " << convertTimeToString(date);
     return oss.str();
 }

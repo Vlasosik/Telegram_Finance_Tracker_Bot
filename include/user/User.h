@@ -4,7 +4,8 @@
 enum class UserStateType {
     IDLE = 1,
     ENTERING_AMOUNT,
-    SELECTING_CATEGORY
+    SELECTING_CATEGORY,
+    REMOVED_TRANSACTION
 };
 
 class User {
