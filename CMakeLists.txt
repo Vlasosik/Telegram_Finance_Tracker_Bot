@@ -46,6 +46,10 @@ add_executable(telegram_finance_tracker_bot ${SRC_FILES} main.cpp
         src/bot/text_message/EnteringAmountHandler.cpp
         include/bot/callback_command/CallbackGetListTransaction.h
         src/bot/callback_command/CallbackGetListTransaction.cpp
+        include/bot/callback_command/CallbackRemoveTransaction.h
+        src/bot/callback_command/CallbackRemoveTransaction.cpp
+        include/bot/text_message/EnteringRemoveHandler.h
+        src/bot/text_message/EnteringRemoveHandler.cpp
 )
 
 target_precompile_headers(telegram_finance_tracker_bot PRIVATE include/pch.h)
