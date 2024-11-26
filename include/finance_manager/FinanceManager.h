@@ -13,7 +13,7 @@ class FinanceManager {
 public:
     explicit FinanceManager() = default;
 
-    explicit FinanceManager(std::vector<Transaction> finance_manager);
+    explicit FinanceManager(std::vector<Transaction> financeManager);
 
     void addTransaction(int64_t userId, const std::string &category, double amount);
 
