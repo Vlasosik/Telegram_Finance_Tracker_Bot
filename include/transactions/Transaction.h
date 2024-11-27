@@ -35,6 +35,8 @@ public:
 
     void setUserId(int64_t userId);
 
+    void setCategory(const std::string &category);
+
     void setAmount(double amount);
 
     void setTimePoint(time_point date);

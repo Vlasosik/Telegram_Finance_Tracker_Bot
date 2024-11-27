@@ -19,6 +19,8 @@ public:
 
     void removeTransaction(int64_t userId, const Transaction &transaction);
 
+    void updateTransaction(int64_t userId, const Transaction &transaction);
+
     void updateTransactionByAmount(int64_t userId, const std::string &category, double newAmount);
 
     void updateTransactionByDate(int64_t userId, const std::string &category, time_point newDate);
@@ -49,9 +51,12 @@ public:
 
     [[nodiscard]] std::unordered_map<std::string, double> getWeekStatistics(int64_t userId);
 
-    [[nodiscard]] double getMonthStatisticsByCategorySum(int64_t userId, const std::string &category);
+    [[nodiscard]] double getStatisticsBySum(int64_t userId,
+                                              const std::chrono::system_clock::duration &duration);
 
-    [[nodiscard]] double getWeekStatisticsByCategorySum(int64_t userId, const std::string &category);
+    [[nodiscard]] double getMonthStatisticsBySum(int64_t userId);
+
+    [[nodiscard]] double getWeekStatisticsBySum(int64_t userId);
 
     [[nodiscard]] std::vector<std::string> getUserCategory(int64_t userId) const;
 };

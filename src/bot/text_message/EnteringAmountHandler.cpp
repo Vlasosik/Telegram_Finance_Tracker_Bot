@@ -3,8 +3,7 @@
 #include "user/UserManager.h"
 
 bool EnteringAmountHandler::canHandle(int64_t userId, const TgBot::Message::Ptr &message) const {
-    auto &userManager = UserManager::getInstance();
-    userManager.getUser(userId);
+    const auto &userManager = UserManager::getInstance();
     return userManager.getState(message->chat->id) == UserStateType::ENTERING_AMOUNT;
 }
 

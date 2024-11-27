@@ -4,4 +4,7 @@
 
 void CallbackCategoryManagement::ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) {
     UIManager::sendCategoryManagementBar(bot, query->message->chat->id);
+    if (query->data == "Назад") {
+        UIManager::sendMainBar(bot, query->message->chat->id);
+    }
 }

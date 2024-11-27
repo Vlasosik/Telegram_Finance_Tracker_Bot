@@ -6,8 +6,9 @@ void CallbackRemoveTransaction::ExecuteCallback(TgBot::Bot &bot, const TgBot::Ca
     userManager.getUser(userId);
     userManager.setState(userId, UserStateType::REMOVED_TRANSACTION);
     auto message = bot.getApi().sendMessage(userId, "Для того щоб видалити транзакцію, потрібно ввести:\n"
-                                   "1. Категорію\n"
-                                   "2. Суму\n"
-                                   "3. Дату транзакції 'День, місяць, рік' 'Година, хвилина, секунда'\n"
-                                   "Якщо ви не памʼятаєте точно дати, ви завжди можете переглянути список транзакцій.");
+                                            "1. Категорію\n"
+                                            "2. Суму\n"
+                                            "3. Дату транзакції\n"
+                                            "Приклад: Їжа 150 24.08.2001 13:15:25 \n"
+                                            "Якщо ви не памʼятаєте точної дати, ви завжди можете переглянути список транзакцій.");
 }

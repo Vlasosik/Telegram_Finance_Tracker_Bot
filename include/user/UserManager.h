@@ -35,6 +35,14 @@ public:
 
     void removeTransaction(int64_t userId, const Transaction &transaction);
 
+    void updateTransaction(int64_t userId, const Transaction &transaction);
 
+    [[nodiscard]] std::unordered_map<std::string, double> getListTransactionForWeek(int64_t userId);
+
+    double getListTransactionForWeekBySum(int64_t userId);
+
+    [[nodiscard]] std::unordered_map<std::string, double> getListTransactionForMonth(int64_t userId);
+
+    double getListTransactionForMonthBySum(int64_t userId);
 };
 #endif //USERMANAGER_H
