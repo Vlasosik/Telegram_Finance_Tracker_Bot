@@ -3,40 +3,41 @@
 #include <numeric>
 
 bool FinanceManager::isMonthPassed(int64_t userId) {
-    const auto it = std::ranges::find_if(finance_manager,
-                                         [&userId](const Transaction &other) {
-                                             return userId == other.getUserId();
-                                         });
-    if (it == finance_manager.end()) {
+    const auto now = std::chrono::system_clock::now();
+
+    std::vector<Transaction> userTransactions;
+    std::ranges::copy_if(finance_manager, std::back_inserter(userTransactions),
+                         [&userId](const Transaction &t) { return t.getUserId() == userId; });
+
+    if (userTransactions.empty()) {
         throw std::invalid_argument("No transactions found for the given user ID");
     }
-    const auto now = std::chrono::system_clock::now();
-    const auto firstTransaction = *std::ranges::min_element(finance_manager,
-                                                            [&userId](const Transaction &a, const Transaction &b) {
-                                                                return a.getUserId() == userId && a.getDate() < b.
-                                                                       getDate();
+    const auto firstTransaction = *std::ranges::min_element(userTransactions,
+                                                            [](const Transaction &a, const Transaction &b) {
+                                                                return a.getDate() < b.getDate();
                                                             });
     const auto duration = std::chrono::duration_cast<std::chrono::days>(now - firstTransaction.getDate());
     return duration.count() >= 31;
 }
 
 bool FinanceManager::isWeekPassed(int64_t userId) {
-    const auto it = std::ranges::find_if(finance_manager,
-                                         [&userId](const Transaction &other) {
-                                             return userId == other.getUserId();
-                                         });
-    if (it == finance_manager.end()) {
+    const auto now = std::chrono::system_clock::now();
+
+    std::vector<Transaction> userTransactions;
+    std::ranges::copy_if(finance_manager, std::back_inserter(userTransactions),
+                         [&userId](const Transaction &t) { return t.getUserId() == userId; });
+
+    if (userTransactions.empty()) {
         throw std::invalid_argument("No transactions found for the given user ID");
     }
-    const auto now = std::chrono::system_clock::now();
-    const auto firstTransaction = *std::ranges::min_element(finance_manager,
-                                                            [&userId](const Transaction &a, const Transaction &b) {
-                                                                return a.getUserId() == userId && a.getDate() < b.
-                                                                       getDate();
+    const auto firstTransaction = *std::ranges::min_element(userTransactions,
+                                                            [](const Transaction &a, const Transaction &b) {
+                                                                return a.getDate() < b.getDate();
                                                             });
     const auto duration = std::chrono::duration_cast<std::chrono::days>(now - firstTransaction.getDate());
     return duration.count() >= 7;
 }
+
 
 FinanceManager::FinanceManager(std::vector<Transaction> financeManager)
     : finance_manager(std::move(financeManager)) {
@@ -49,9 +50,37 @@ void FinanceManager::addTransaction(int64_t userId, const std::string &category,
 
 void FinanceManager::removeTransaction(const int64_t userId, const Transaction &transaction) {
     if (transaction.getUserId() != userId) {
-        throw std::invalid_argument("Transaction does not belong to the user with the given ID");
+        throw std::invalid_argument("Транзакція не належить користувачеві з ID: " + std::to_string(userId));
     }
-    finance_manager.erase(finance_manager.begin());
+    auto truncateToSeconds = [](const std::chrono::system_clock::time_point &timePoint) {
+        return std::chrono::time_point_cast<std::chrono::seconds>(timePoint);
+    };
+    auto removedCount = std::erase_if(finance_manager,
+                                      [&](const Transaction &tran) {
+                                          return tran.getUserId() == userId &&
+                                                 tran.getCategory() == transaction.getCategory() &&
+                                                 tran.getAmount() == transaction.getAmount() &&
+                                                 truncateToSeconds(tran.getDate()) ==
+                                                 truncateToSeconds(transaction.getDate());
+                                      });
+    if (removedCount == 0) {
+        throw std::invalid_argument("Не знайдено транзакцій для видалення");
+    }
+}
+
+
+void FinanceManager::updateTransaction(int64_t userId, const Transaction &transaction) {
+    if (transaction.getUserId() != userId) {
+        throw std::invalid_argument("Транзакція не належить користувачеві з даним ID");
+    }
+    for (auto &other: finance_manager) {
+        other.setUserId(transaction.getUserId());
+        other.setCategory(transaction.getCategory());
+        other.setAmount(transaction.getAmount());
+        other.setTimePoint(transaction.getDate());
+        return;
+    }
+    throw std::runtime_error("Транзакція не знайдена для оновлення");
 }
 
 void FinanceManager::updateTransactionByAmount(const int64_t userId, const std::string &category,
@@ -245,41 +274,52 @@ std::unordered_map<std::string, double> FinanceManager::getMonthStatistics(const
 
 std::unordered_map<std::string, double> FinanceManager::getWeekStatistics(const int64_t userId) {
     std::unordered_map<std::string, double> weekStatistics;
+
     if (!isWeekPassed(userId)) {
         throw std::invalid_argument("A week has not passed since the first transaction");
     }
+
+    const auto now = std::chrono::system_clock::now();
+    const auto weekAgo = now - std::chrono::days(7);
+
     for (const auto &transaction: finance_manager) {
-        if (transaction.getUserId() == userId) {
+        if (transaction.getUserId() == userId && transaction.getDate() >= weekAgo) {
             weekStatistics[transaction.getCategory()] += transaction.getAmount();
         }
     }
     return weekStatistics;
 }
 
-double FinanceManager::getMonthStatisticsByCategorySum(const int64_t userId, const std::string &category) {
-    double total = 0.0;
-    if (!isMonthPassed(userId)) {
-        throw std::invalid_argument("A month has not passed since the first transaction");
+double FinanceManager::getStatisticsBySum(int64_t userId, const std::chrono::system_clock::duration &duration) {
+    const auto now = std::chrono::system_clock::now();
+    const auto firstTransactionIt = std::ranges::find_if(finance_manager,
+                                                         [&userId](const Transaction &tran) {
+                                                             return tran.getUserId() == userId;
+                                                         });
+    if (firstTransactionIt == finance_manager.end()) {
+        throw std::invalid_argument("No transactions found for the given user ID");
     }
+    const auto firstTransactionDate = firstTransactionIt->getDate();
+    if (std::chrono::duration_cast<std::chrono::days>(now - firstTransactionDate) < duration) {
+        throw std::invalid_argument("The specified period has not passed since the first transaction");
+    }
+    double total = 0.0;
     for (const auto &transaction: finance_manager) {
-        if (transaction.getUserId() == userId && transaction.getCategory() == category) {
+        if (transaction.getUserId() == userId) {
             total += transaction.getAmount();
         }
     }
     return total;
 }
 
-double FinanceManager::getWeekStatisticsByCategorySum(const int64_t userId, const std::string &category) {
-    double total = 0.0;
-    if (!isWeekPassed(userId)) {
-        throw std::invalid_argument("A week has not passed since the first transaction");
-    }
-    for (const auto &transaction: finance_manager) {
-        if (transaction.getUserId() == userId && transaction.getCategory() == category) {
-            total += transaction.getAmount();
-        }
-    }
-    return total;
+double FinanceManager::getMonthStatisticsBySum(const int64_t userId) {
+    constexpr auto daysInMonth = std::chrono::days(31);
+    return getStatisticsBySum(userId, daysInMonth);
+}
+
+double FinanceManager::getWeekStatisticsBySum(const int64_t userId) {
+    constexpr auto daysInWeek = std::chrono::days(7);
+    return getStatisticsBySum(userId, daysInWeek);
 }
 
 std::vector<std::string> FinanceManager::getUserCategory(const int64_t userId) const {
