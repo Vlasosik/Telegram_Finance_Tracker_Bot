@@ -10,5 +10,7 @@ public:
     static void sendCategoryBar(const TgBot::Bot &bot, int64_t userId);
 
     static void sendCategoryManagementBar(const TgBot::Bot &bot, int64_t userId);
+
+    static void sendReportTransactionBar(const TgBot::Bot &bot, int64_t userId);
 };
 #endif //UIMANAGER_H
