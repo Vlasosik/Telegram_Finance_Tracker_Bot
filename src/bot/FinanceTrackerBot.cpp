@@ -8,12 +8,19 @@
 #include "bot/callback_command/CallbackCategoryManagement.h"
 #include "bot/callback_command/CallbackGetListTransaction.h"
 #include "bot/callback_command/CallbackHelp.h"
+#include "bot/callback_command/CallbackListTransactionForMonth.h"
+#include "bot/callback_command/CallbackListTransactionForMonthBySum.h"
+#include "bot/callback_command/CallbackListTransactionForWeekBySum.h"
+#include "bot/callback_command/CallbackListTransactionsForWeek.h"
 #include "bot/callback_command/CallbackRemoveTransaction.h"
+#include "bot/callback_command/CallbackReportTransaction.h"
 #include "bot/callback_command/CallbackSelectedCategories.h"
+#include "bot/callback_command/CallbackUpdateTransaction.h"
 #include "bot/message_command/InfoMessageCommand.h"
 #include "bot/message_command/StartMessageCommand.h"
 #include "bot/text_message/EnteringAmountHandler.h"
 #include "bot/text_message/EnteringRemoveHandler.h"
+#include "bot/text_message/EnteringUpdateHandler.h"
 #include "bot/ui_manager/UIManager.h"
 
 FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
@@ -43,11 +50,19 @@ void FinanceTrackerBot::registerCallbacks() {
     callbackCommands["Додати транзакцію"] = std::make_shared<CallbackAddTransaction>();
     callbackCommands["Список транзакцій"] = std::make_shared<CallbackGetListTransaction>();
     callbackCommands["Видалити транзакцію"] = std::make_shared<CallbackRemoveTransaction>();
+    callbackCommands["Оновити транзакцію"] = std::make_shared<CallbackUpdateTransaction>();
+    callbackCommands["Звіт транзакцій"] = std::make_shared<CallbackReportTransaction>();
+
+    callbackCommands["Список транзакцій за тиждень"] = std::make_shared<CallbackListTransactionsForWeek>();
+    callbackCommands["Сума транзакцій за тиждень"] = std::make_shared<CallbackListTransactionForWeekBySum>();
+    callbackCommands["Список транзакцій за місяць"] = std::make_shared<CallbackListTransactionForMonth>();
+    callbackCommands["Сума транзакцій за місяць"] = std::make_shared<CallbackListTransactionForMonthBySum>();
 }
 
 void FinanceTrackerBot::registerTextMessages() {
     textMessages.emplace_back(std::make_unique<EnteringAmountHandler>());
     textMessages.emplace_back(std::make_unique<EnteringRemoveHandler>());
+    textMessages.emplace_back(std::make_unique<EnteringUpdateHandler>());
 }
 
 void FinanceTrackerBot::handleCommandMessage(const std::string &command, const TgBot::Message::Ptr &message) {
