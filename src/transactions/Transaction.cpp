@@ -34,6 +34,10 @@ void Transaction::setUserId(const int64_t userId) {
     this->userId = userId;
 }
 
+void Transaction::setCategory(const std::string &category) {
+    this->category = category;
+}
+
 void Transaction::setAmount(const double amount) {
     if (amount < 0) {
         throw std::invalid_argument("Amount cannot be negative");
