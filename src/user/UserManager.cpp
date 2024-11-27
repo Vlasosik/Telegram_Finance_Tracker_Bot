@@ -55,3 +55,23 @@ std::vector<Transaction> UserManager::getListTransaction(const int64_t userId) c
 void UserManager::removeTransaction(const int64_t userId, const Transaction &transaction) {
     financeManager.removeTransaction(userId, transaction);
 }
+
+void UserManager::updateTransaction(const int64_t userId, const Transaction &transaction) {
+    financeManager.updateTransaction(userId, transaction);
+}
+
+[[nodiscard]] std::unordered_map<std::string, double> UserManager::getListTransactionForWeek(const int64_t userId) {
+    return  financeManager.getWeekStatistics(userId);
+}
+
+double UserManager::getListTransactionForWeekBySum(const int64_t userId) {
+    return financeManager.getWeekStatisticsBySum(userId);
+}
+
+std::unordered_map<std::string, double> UserManager::getListTransactionForMonth(int64_t userId) {
+    return financeManager.getMonthStatistics(userId);
+}
+
+double UserManager::getListTransactionForMonthBySum(const int64_t userId) {
+    return financeManager.getMonthStatisticsBySum(userId);
+}
