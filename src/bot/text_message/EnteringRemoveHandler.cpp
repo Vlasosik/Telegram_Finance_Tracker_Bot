@@ -11,7 +11,6 @@ bool EnteringRemoveHandler::canHandle(const int64_t userId, const TgBot::Message
 void EnteringRemoveHandler::handleMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message) {
     const int64_t userId = message->chat->id;
     auto &userManager = UserManager::getInstance();
-    userManager.getUser(userId);
 
     try {
         const std::string &text = message->text;
