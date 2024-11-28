@@ -4,5 +4,6 @@
 
 void StartMessageCommand::ExecuteMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message) {
     bot.getApi().sendMessage(message->chat->id, "Привіт! Я ваш фінансовий бот 🤖💲");
-    UIManager::sendMainBar(bot, message->chat->id);
+    const int64_t userId = message->chat->id;
+    UIManager::sendMainBar(bot, userId);
 };
