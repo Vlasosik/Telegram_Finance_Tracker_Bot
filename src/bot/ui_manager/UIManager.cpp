@@ -27,8 +27,8 @@ void UIManager::sendCategoryBar(const TgBot::Bot &bot, int64_t userId) {
     keyboard->inlineKeyboard.push_back({buttonFood, buttonHousing});
 
     auto buttonClothingAndFootwear = std::make_shared<TgBot::InlineKeyboardButton>();
-    buttonClothingAndFootwear->text = "Одяг та взуття";
-    buttonClothingAndFootwear->callbackData = "Одяг та взуття";
+    buttonClothingAndFootwear->text = "Одяг";
+    buttonClothingAndFootwear->callbackData = "Одяг";
 
     const auto buttonTransport = std::make_shared<TgBot::InlineKeyboardButton>();
     buttonTransport->text = "Транспорт";
@@ -37,22 +37,23 @@ void UIManager::sendCategoryBar(const TgBot::Bot &bot, int64_t userId) {
 
 
     auto buttonFamilyAndChildren = std::make_shared<TgBot::InlineKeyboardButton>();
-    buttonFamilyAndChildren->text = "Сімʼя та діти";
-    buttonFamilyAndChildren->callbackData = "Сімʼя та діти";
-
-    auto buttonPersonalExpenses = std::make_shared<TgBot::InlineKeyboardButton>();
-    buttonPersonalExpenses->text = "Особисті витрати";
-    buttonPersonalExpenses->callbackData = "Особисті витрати";
-    keyboard->inlineKeyboard.push_back({buttonFamilyAndChildren, buttonPersonalExpenses});
+    buttonFamilyAndChildren->text = "Сімʼя";
+    buttonFamilyAndChildren->callbackData = "Сімʼя";
 
     const auto buttonSavings = std::make_shared<TgBot::InlineKeyboardButton>();
     buttonSavings->text = "Накопичення";
     buttonSavings->callbackData = "Накопичення";
+    keyboard->inlineKeyboard.push_back({buttonFamilyAndChildren, buttonSavings});
+
 
     auto buttonEducationAndSelfDevelopment = std::make_shared<TgBot::InlineKeyboardButton>();
-    buttonEducationAndSelfDevelopment->text = "Освіта та розвиток";
-    buttonEducationAndSelfDevelopment->callbackData = "Освіта та розвиток";
-    keyboard->inlineKeyboard.push_back({buttonSavings, buttonEducationAndSelfDevelopment});
+    buttonEducationAndSelfDevelopment->text = "Освіта";
+    buttonEducationAndSelfDevelopment->callbackData = "Освіта";
+
+    auto buttonPersonalExpenses = std::make_shared<TgBot::InlineKeyboardButton>();
+    buttonPersonalExpenses->text = "Інше";
+    buttonPersonalExpenses->callbackData = "Інше";
+    keyboard->inlineKeyboard.push_back({buttonEducationAndSelfDevelopment, buttonPersonalExpenses});
 
     auto buttonBack = std::make_shared<TgBot::InlineKeyboardButton>();
     buttonBack->text = "Назад";

@@ -19,9 +19,9 @@ std::string User::getSelectedCategory() {
 
 bool User::hasSelectedCategory() const {
     const std::vector<std::string> nameCategory{
-        "Їжа", "Житло", "Одяг та взуття",
-        "Транспорт", "Сімʼя та діти", "Особисті витрати",
-        "Накопичення", "Освіта та розвиток"
+        "Їжа", "Житло", "Одяг",
+        "Транспорт", "Сімʼя", "Інше",
+        "Накопичення", "Освіта"
     };
     return std::ranges::any_of(nameCategory, [this](const std::string &category) {
         return category == this->selectedCategory;

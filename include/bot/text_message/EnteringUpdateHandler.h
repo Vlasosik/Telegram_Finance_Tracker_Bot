@@ -2,7 +2,7 @@
 #define ENTERINGUPDATEHANDLER_H
 #include "TextMessage.h"
 
-class EnteringUpdateHandler : public TextMessage{
+class EnteringUpdateHandler : public TextMessage {
 public:
     [[nodiscard]] bool canHandle(int64_t userId, const TgBot::Message::Ptr &message) const override;
 

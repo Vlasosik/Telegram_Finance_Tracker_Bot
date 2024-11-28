@@ -1,7 +1,6 @@
 #ifndef UIMANAGER_H
 #define UIMANAGER_H
 #include <tgbot/Bot.h>
-#include <pch.h>
 
 class UIManager {
 public:

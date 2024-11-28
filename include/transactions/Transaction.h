@@ -12,7 +12,7 @@ class Transaction {
 public:
     Transaction() = default;
 
-    Transaction(int64_t userId, const std::string &category, double amount, time_point date);
+    Transaction(int64_t userId, std::string category, double amount, time_point date);
 
     Transaction(const Transaction &other) = default;
 

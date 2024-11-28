@@ -2,7 +2,7 @@
 #define CALLBACKCATEGORYMANAGEMENT_H
 #include "CallbackCommand.h"
 
-class CallbackCategoryManagement : public CallbackCommand{
+class CallbackCategoryManagement : public CallbackCommand {
 public:
     void ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) override;
 };

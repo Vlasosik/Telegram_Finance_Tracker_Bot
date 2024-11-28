@@ -1,8 +1,6 @@
 #ifndef CALLBACKCOMMAND_H
 #define CALLBACKCOMMAND_H
 #include <tgbot/Bot.h>
-#include "user/UserManager.h"
-
 
 class CallbackCommand {
 public:
