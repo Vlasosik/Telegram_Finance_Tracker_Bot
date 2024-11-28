@@ -7,7 +7,6 @@ UserManager &UserManager::getInstance() {
 
 std::shared_ptr<User> UserManager::getUser(int64_t userId) {
     if (!userManager.contains(userId)) {
-        std::cout << "Creating new user with ID: " << userId << std::endl;
         userManager[userId] = std::make_shared<User>(userId);
     }
     return userManager[userId];

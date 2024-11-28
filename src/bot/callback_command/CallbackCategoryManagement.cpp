@@ -3,8 +3,10 @@
 #include "bot/ui_manager/UIManager.h"
 
 void CallbackCategoryManagement::ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) {
-    UIManager::sendCategoryManagementBar(bot, query->message->chat->id);
+    const int64_t userId = query->message->chat->id;
+    const int32_t messageId = query->message->messageId;
+    UIManager::sendCategoryManagementBar(bot, userId, messageId);
     if (query->data == "Назад") {
-        UIManager::sendMainBar(bot, query->message->chat->id);
+        UIManager::sendMainBar(bot, userId, messageId);
     }
 }
