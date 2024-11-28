@@ -2,5 +2,7 @@
 #include "bot/ui_manager/UIManager.h"
 
 void CallbackAvailableCategories::ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) {
-    UIManager::sendCategoryBar(bot, query->message->chat->id);
+    const int64_t userId = query->message->chat->id;
+    const int32_t messageId = query->message->messageId;
+    UIManager::sendCategoryBar(bot, userId, messageId);
 }
