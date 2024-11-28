@@ -1,5 +1,7 @@
 #include "bot/callback_command/CallbackRemoveTransaction.h"
 
+#include "user/UserManager.h"
+
 void CallbackRemoveTransaction::ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) {
     int64_t userId = query->message->chat->id;
     auto &userManager = UserManager::getInstance();

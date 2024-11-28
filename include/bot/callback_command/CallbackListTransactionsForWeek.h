@@ -2,7 +2,7 @@
 #define CALLBACKLISTTRANSACTIONSFORWEEK_H
 #include "CallbackCommand.h"
 
-class CallbackListTransactionsForWeek : public CallbackCommand{
+class CallbackListTransactionsForWeek : public CallbackCommand {
 public:
     void ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) override;
 };

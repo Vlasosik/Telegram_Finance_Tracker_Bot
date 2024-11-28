@@ -9,9 +9,6 @@ std::shared_ptr<User> UserManager::getUser(int64_t userId) {
     if (!userManager.contains(userId)) {
         std::cout << "Creating new user with ID: " << userId << std::endl;
         userManager[userId] = std::make_shared<User>(userId);
-    } else {
-        std::cout << "User with ID " << userId << " already exists. State: "
-                << static_cast<int>(userManager[userId]->getUserState()) << std::endl;
     }
     return userManager[userId];
 }
@@ -33,7 +30,6 @@ bool UserManager::hasUserSelectedCategory(const int64_t userId) {
 
 void UserManager::setState(const int64_t userId, const UserStateType newState) {
     if (userManager.contains(userId)) {
-        std::cout << "Setting state for user " << userId << " to " << static_cast<int>(newState) << std::endl;
         userManager[userId]->setUserState(newState);
     } else {
         std::cout << "User " << userId << " not found." << std::endl;

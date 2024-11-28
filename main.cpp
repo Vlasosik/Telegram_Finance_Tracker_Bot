@@ -1,9 +1,5 @@
-#include <cstdio>
 #include <tgbot/tgbot.h>
-#include "pch.h"
 #include "bot/FinanceTrackerBot.h"
-#include "finance_manager/FinanceManager.h"
-#include "transactions/Transaction.h"
 
 int main() {
     const char* token = std::getenv("TOKEN_BOT");

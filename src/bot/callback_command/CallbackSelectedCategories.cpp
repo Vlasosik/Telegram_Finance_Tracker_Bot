@@ -10,7 +10,7 @@ void CallbackSelectedCategories::ExecuteCallback(TgBot::Bot &bot, const TgBot::C
         userManager.setState(userId, UserStateType::SELECTING_CATEGORY);
         userManager.addCategory(userId, query->data);
         auto message = bot.getApi().sendMessage(
-            userId, "Категорія " + userManager.getUserSelectedCategory(userId) + "  додана.");
+            userId, "Категорія " + userManager.getUserSelectedCategory(userId) + " додана.");
     } catch (std::invalid_argument &ex) {
         auto message = bot.getApi().sendMessage(
             userId, "Введіть категорію яка є у списку.");

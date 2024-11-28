@@ -5,7 +5,8 @@
 class MessageCommand {
 public:
     virtual void ExecuteMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message) = 0;
-    virtual  ~MessageCommand();
+
+    virtual ~MessageCommand();
 };
 
 inline MessageCommand::~MessageCommand() {

@@ -2,7 +2,7 @@
 
 #include "user/UserManager.h"
 
-bool EnteringUpdateHandler::canHandle(int64_t userId, const TgBot::Message::Ptr &message) const {
+bool EnteringUpdateHandler::canHandle(const int64_t userId, const TgBot::Message::Ptr &message) const {
     auto &userManager = UserManager::getInstance();
     userManager.getUser(userId);
     return userManager.getState(userId) == UserStateType::UPDATED_TRANSACTION;
@@ -36,7 +36,6 @@ void EnteringUpdateHandler::handleMessage(TgBot::Bot &bot, const TgBot::Message:
         userManager.setState(userId, UserStateType::IDLE);
         auto sendMessage = bot.getApi().sendMessage(userId, "Транзакція успішно оновлена.");
     } catch (const std::exception &ex) {
-        // Обробка помилки
         bot.getApi().sendMessage(userId, std::string("Помилка: ") + ex.what());
     }
 }

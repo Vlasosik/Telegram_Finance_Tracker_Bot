@@ -40,8 +40,8 @@ void FinanceTrackerBot::registerCallbacks() {
     callbackCommands["Допомога"] = std::make_shared<CallbackHelp>();
 
     const std::vector<std::string> categories = {
-        "Їжа", "Одяг та взуття", "Сімʼя та діти", "Накопичення",
-        "Житло", "Транспорт", "Особисті витрати", "Освіта та розвиток"
+        "Їжа", "Одяг", "Сімʼя", "Накопичення",
+        "Житло", "Транспорт", "Інше", "Освіта"
     };
     for (const auto &category: categories) {
         callbackCommands[category] = std::make_shared<CallbackSelectedCategories>();
@@ -101,7 +101,6 @@ void FinanceTrackerBot::Run() {
     bot.getEvents().onCallbackQuery([this](const TgBot::CallbackQuery::Ptr &query) {
         handleCallbackQuery(query->data, query);
     });
-
     bot.getEvents().onAnyMessage([this](const TgBot::Message::Ptr &message) {
         if (!message->text.empty() && message->text[0] != '/') {
             handleTextMessages(message);

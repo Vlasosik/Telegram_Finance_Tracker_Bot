@@ -29,6 +29,5 @@ public:
     [[nodiscard]] UserStateType getUserState() const;
 
     void setUserState(UserStateType newState);
-
 };
 #endif //USER_H

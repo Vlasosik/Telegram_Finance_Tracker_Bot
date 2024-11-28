@@ -1,10 +1,10 @@
 #include "transactions/Transaction.h"
 
+#include <utility>
 
-Transaction::Transaction(const int64_t userId, const std::string &category, const double amount, const time_point date)
-    : userId(userId), category(category), amount(amount), date(date) {
-    std::cout << "Transaction created: UserId: " << userId << ", Category: " << category
-            << ", Amount: " << amount << ", Date: " << convertTimeToString(date) << std::endl;
+
+Transaction::Transaction(const int64_t userId, std::string category, const double amount, const time_point date)
+    : userId(userId), category(std::move(category)), amount(amount), date(date) {
 }
 
 bool Transaction::operator==(const Transaction &other) const {
