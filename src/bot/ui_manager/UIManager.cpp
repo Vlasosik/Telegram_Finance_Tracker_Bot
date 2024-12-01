@@ -42,14 +42,8 @@ void UIManager::sendCategoryBar(const TgBot::Bot &bot, int64_t userId, const int
     keyboard->inlineKeyboard.push_back({buttonBack});
 
     bot.getApi().editMessageText(
-        "Оберіть категорії які вас цікавлять ✅",
-        userId,
-        messageId,
-        "",
-        "",
-        nullptr,
-        std::make_shared<TgBot::InlineKeyboardMarkup>(*keyboard)
-    );
+        "Оберіть категорії які вас цікавлять ✅", userId, messageId, "", "", nullptr,
+        std::make_shared<TgBot::InlineKeyboardMarkup>(*keyboard));
 }
 
 void UIManager::sendCategoryManagementBar(const TgBot::Bot &bot, int64_t userId, int32_t messageId) {
