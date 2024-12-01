@@ -22,8 +22,10 @@
 #include "bot/text_message/EnteringRemoveHandler.h"
 #include "bot/text_message/EnteringUpdateHandler.h"
 #include "bot/ui_manager/UIManager.h"
+#include "migration/MigrationSQL.h"
 
 FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
+    migrationSQL.executeMigrations("/Users/vlasik/Навчання/С++/code/telegram_finance_tracker_bot/migration_files");
     registerCommand();
     registerCallbacks();
     registerTextMessages();
