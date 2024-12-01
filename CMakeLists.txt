@@ -3,7 +3,19 @@ project(telegram_finance_tracker_bot)
 
 set(CMAKE_CXX_STANDARD 20)
 
+link_directories(/opt/homebrew/opt/libpq/lib)
+
+find_library(PQ_LIB pq HINTS opt/homebrew/opt/libpq/lib REQUIRED)
+
 include_directories(${CMAKE_SOURCE_DIR}/include)
+
+include_directories(/opt/homebrew/opt/libpq/include)
+
+include_directories(/Users/vlasik/Навчання/С++/code/OOP/practice/date/include)
+
+include_directories(/Users/vlasik/Навчання/С++/code/OOP/practice/sqlpp11/include)
+
+include_directories(/Users/vlasik/Навчання/С++/code/OOP/practice/sqlpp11-connector-postgresql)
 
 file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
@@ -64,8 +76,12 @@ add_executable(telegram_finance_tracker_bot ${SRC_FILES} main.cpp
         include/bot/callback_command/CallbackListTransactionForMonthBySum.h
         src/bot/callback_command/CallbackListTransactionForMonth.cpp
         src/bot/callback_command/CallbackListTransactionForMonthBySum.cpp
+        include/bot/entity/UsersEntity.h
+        include/bot/entity/TransactionsEntity.h
+        include/migration/MigrationSQL.h
+        src/migration/MigrationSQL.cpp
 )
 
 target_precompile_headers(telegram_finance_tracker_bot PRIVATE include/pch.h)
 
-target_link_libraries(telegram_finance_tracker_bot TgBot)
+target_link_libraries(telegram_finance_tracker_bot TgBot ${PQ_LIB})
