@@ -6,14 +6,21 @@ UserManager &UserManager::getInstance() {
 }
 
 std::shared_ptr<User> UserManager::getUser(int64_t userId) {
-    if (!userManager.contains(userId)) {
-        userManager[userId] = std::make_shared<User>(userId);
+    if (userManager.contains(userId)) {
+        return userManager[userId];
     }
+    const auto userIdFromDb = userService.getUserId(userId);
+    if (userIdFromDb.has_value()) {
+        userManager[userId] = std::make_shared<User>(userId);
+        return userManager[userId];
+    }
+    userService.createUser(userId);
+    userManager[userId] = std::make_shared<User>(userId);
     return userManager[userId];
 }
 
 void UserManager::addCategory(const int64_t userId, const std::string &category) {
-    userManager[userId]->setCategory(category);
+    userManager.at(userId)->setCategory(category);
 }
 
 std::string UserManager::getUserSelectedCategory(const int64_t userId) {
@@ -35,38 +42,46 @@ void UserManager::setState(const int64_t userId, const UserStateType newState) {
     }
 }
 
-UserStateType UserManager::getState(const int64_t userId) const {
-    return userManager.at(userId)->getUserState();
+UserStateType UserManager::getState(const int64_t userId) {
+    return userManager[userId]->getUserState();
 }
 
 void UserManager::addTransactionByUser(const int64_t userId, const std::string &category, const double amount) {
-    financeManager.addTransaction(userId, category, amount);
+    transactionService.createTransaction(userId, category, amount, std::chrono::system_clock::now());
 }
 
-std::vector<Transaction> UserManager::getListTransaction(const int64_t userId) const {
-    return financeManager.getTransaction(userId);
+std::vector<Transaction> UserManager::getListTransaction(const int64_t userId) {
+    return transactionService.getListTransactionByUserId(userId);
+}
+
+bool UserManager::transactionExists(int64_t userId, const Transaction &transaction) {
+    auto transactions = getListTransaction(userId);
+    return std::ranges::any_of(transactions.begin(), transactions.end(), [&transaction](const Transaction &t) {
+        return transaction == t;
+    });
 }
 
 void UserManager::removeTransaction(const int64_t userId, const Transaction &transaction) {
-    financeManager.removeTransaction(userId, transaction);
+    transactionService.deleteTransaction(userId);
 }
 
 void UserManager::updateTransaction(const int64_t userId, const Transaction &transaction) {
-    financeManager.updateTransaction(userId, transaction);
+    transactionService.updateTransaction(userId, transaction.getCategory(), transaction.getAmount(),
+                                         transaction.getDate());
 }
 
-[[nodiscard]] std::unordered_map<std::string, double> UserManager::getListTransactionForWeek(const int64_t userId) {
-    return  financeManager.getWeekStatistics(userId);
+[[nodiscard]] std::vector<Transaction> UserManager::getListTransactionForWeek(const int64_t userId) {
+    return transactionService.getListTransactionForWeek(userId);
 }
 
 double UserManager::getListTransactionForWeekBySum(const int64_t userId) {
-    return financeManager.getWeekStatisticsBySum(userId);
+    return transactionService.getSumTransactionForWeek(userId);
 }
 
-std::unordered_map<std::string, double> UserManager::getListTransactionForMonth(int64_t userId) {
-    return financeManager.getMonthStatistics(userId);
+[[nodiscard]] std::vector<Transaction> UserManager::getListTransactionForMonth(const int64_t userId) {
+    return transactionService.getListTransactionForMonth(userId);
 }
 
 double UserManager::getListTransactionForMonthBySum(const int64_t userId) {
-    return financeManager.getMonthStatisticsBySum(userId);
+    return transactionService.getSumTransactionForMonth(userId);
 }
