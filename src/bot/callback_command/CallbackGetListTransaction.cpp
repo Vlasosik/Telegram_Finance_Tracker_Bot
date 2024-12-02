@@ -4,7 +4,7 @@
 
 void CallbackGetListTransaction::ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) {
     int64_t userId = query->message->chat->id;
-    const auto &userManager = UserManager::getInstance();
+    auto &userManager = UserManager::getInstance();
     const auto transactions = userManager.getListTransaction(userId);
     std::ostringstream messageStream;
 
@@ -13,7 +13,7 @@ void CallbackGetListTransaction::ExecuteCallback(TgBot::Bot &bot, const TgBot::C
     } else {
         int index = 1;
         for (const auto &transaction: transactions) {
-            messageStream << index++ << ". " << transaction.toString() << "\n";
+            messageStream<< "№" << index++ << "\n" << transaction.toString();
         }
     }
     auto message = bot.getApi().sendMessage(userId, messageStream.str());
