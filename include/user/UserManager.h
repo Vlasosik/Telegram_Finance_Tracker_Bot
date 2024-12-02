@@ -23,7 +23,7 @@ public:
 
     std::shared_ptr<User> getUser(int64_t userId);
 
-    void addCategory(int64_t userId, const std::string &category);
+    void addCategory(int64_t userId, const std::string &category) const;
 
     std::string getUserSelectedCategory(int64_t userId);
 

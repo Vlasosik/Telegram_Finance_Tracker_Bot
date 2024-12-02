@@ -1,8 +1,5 @@
 #include "transactions/Transaction.h"
 
-#include <utility>
-
-
 Transaction::Transaction(const int64_t userId, std::string category, const double amount, const time_point date)
     : userId(userId), category(std::move(category)), amount(amount), date(date) {
 }

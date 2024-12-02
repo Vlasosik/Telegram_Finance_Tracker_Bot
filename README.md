@@ -1,6 +1,7 @@
 # Telegram Bot для управління фінансами
 
-Цей проєкт представляє собою Telegram бота, який допомагає вам управляти вашими фінансами. Він дозволяє додавати категорії витрат, відслідковувати їх і мати загальний огляд вашого бюджету.
+Цей проєкт представляє собою Telegram бота, який допомагає вам управляти вашими фінансами. Він дозволяє додавати
+категорії витрат, відслідковувати їх і мати загальний огляд вашого бюджету.
 
 ## Передумови
 
@@ -15,6 +16,7 @@
 Вам потрібна бібліотека [TgBot](https://github.com/reo7sp/tgbot-cpp) для роботи з Telegram API.
 
 Щоб завантажити бібліотеку:
+
 - Перейдіть на [репозиторій TgBot](https://github.com/reo7sp/tgbot-cpp).
 - Дотримуйтесь [інструкцій по установці](https://github.com/reo7sp/tgbot-cpp/wiki) для вашої операційної системи.
 
@@ -25,7 +27,8 @@
 1. Завантажте бібліотеку [SQLPP11](https://github.com/rbock/sqlpp11):
     - Дотримуйтесь [інструкцій по установці](https://github.com/rbock/sqlpp11#installation).
 
-2. Завантажте конектор для PostgreSQL [SQLPP11-Connector-PostgreSQL](https://github.com/matthijs/sqlpp11-connector-postgresql):
+2. Завантажте конектор для
+   PostgreSQL [SQLPP11-Connector-PostgreSQL](https://github.com/matthijs/sqlpp11-connector-postgresql):
     - Дотримуйтесь [інструкцій по установці](https://github.com/matthijs/sqlpp11-connector-postgresql#installation).
 
 #### Бібліотека Howard Hinnant’s Date Library
@@ -33,13 +36,16 @@
 Для роботи з датами використовується [Howard Hinnant’s date library](https://github.com/HowardHinnant/date).
 
 Щоб встановити:
-- Використовуйте [репозиторій](https://github.com/HowardHinnant/date) і дотримуйтесь [інструкцій по установці](https://howardhinnant.github.io/date/date.html).
+
+- Використовуйте [репозиторій](https://github.com/HowardHinnant/date) і
+  дотримуйтесь [інструкцій по установці](https://howardhinnant.github.io/date/date.html).
 
 ---
 
 ### 2. Налаштування токену
 
-Щоб ваш бот почав працювати, вам потрібно вказати **токен вашого бота**. Токен є унікальним ідентифікатором, який ви отримуєте після реєстрації бота в [BotFather](https://core.telegram.org/bots#botfather).
+Щоб ваш бот почав працювати, вам потрібно вказати **токен вашого бота**. Токен є унікальним ідентифікатором, який ви
+отримуєте після реєстрації бота в [BotFather](https://core.telegram.org/bots#botfather).
 
 #### Кроки для налаштування токену:
 
