@@ -123,8 +123,3 @@ cmake-build-*/
 
 # Visual Studio Code settings
 .vscode/
-
-
-date/
-sqlpp11/
-sqlpp11-connector-postgresql/

@@ -1,8 +1,6 @@
 #ifndef TRANSACTIONSERVICE_H
 #define TRANSACTIONSERVICE_H
-#include <sqlpp11/detail/enable_if.h>
 #include <sqlpp11/postgresql/connection.h>
-#include <sqlpp11/postgresql/connection_config.h>
 
 #include "transactions/Transaction.h"
 

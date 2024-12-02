@@ -9,8 +9,7 @@ std::shared_ptr<User> UserManager::getUser(int64_t userId) {
     if (userManager.contains(userId)) {
         return userManager[userId];
     }
-    const auto userIdFromDb = userService.getUserId(userId);
-    if (userIdFromDb.has_value()) {
+    if (const auto userIdFromDb = userService.getUserId(userId); userIdFromDb.has_value()) {
         userManager[userId] = std::make_shared<User>(userId);
         return userManager[userId];
     }
@@ -19,7 +18,7 @@ std::shared_ptr<User> UserManager::getUser(int64_t userId) {
     return userManager[userId];
 }
 
-void UserManager::addCategory(const int64_t userId, const std::string &category) {
+void UserManager::addCategory(const int64_t userId, const std::string &category) const {
     userManager.at(userId)->setCategory(category);
 }
 
@@ -54,7 +53,7 @@ std::vector<Transaction> UserManager::getListTransaction(const int64_t userId) {
     return transactionService.getListTransactionByUserId(userId);
 }
 
-bool UserManager::transactionExists(int64_t userId, const Transaction &transaction) {
+bool UserManager::transactionExists(const int64_t userId, const Transaction &transaction) {
     auto transactions = getListTransaction(userId);
     return std::ranges::any_of(transactions.begin(), transactions.end(), [&transaction](const Transaction &t) {
         return transaction == t;
