@@ -33,7 +33,6 @@ MigrationSQL::MigrationSQL() {
 void MigrationSQL::executeMigrations(const std::string &migrationFolder) {
     try {
         std::filesystem::path exe_path = std::filesystem::current_path();
-        std::cout << "Поточний каталог: " << exe_path << std::endl;
         std::filesystem::path migration_path = exe_path / migrationFolder;
         if (!exists(migration_path) || !is_directory(migration_path)) {
             std::cerr << "Папка міграцій не знайдена: " << migration_path << std::endl;

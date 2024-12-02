@@ -25,6 +25,7 @@
 #include "migration/MigrationSQL.h"
 
 FinanceTrackerBot::FinanceTrackerBot(const std::string &token) : bot(token) {
+    // user root direction folder
     migrationSQL.executeMigrations("/Users/vlasik/Навчання/С++/code/telegram_finance_tracker_bot/migration_files");
     registerCommand();
     registerCallbacks();
