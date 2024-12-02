@@ -30,7 +30,6 @@ void EnteringUpdateHandler::handleMessage(TgBot::Bot &bot, const TgBot::Message:
             throw std::invalid_argument("Неправильний формат дати чи часу");
         }
         auto timePoint = std::chrono::system_clock::from_time_t(std::mktime(&tm));
-
         Transaction transaction(userId, category, amount, timePoint);
         userManager.updateTransaction(userId, transaction);
         userManager.setState(userId, UserStateType::IDLE);
