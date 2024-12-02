@@ -80,6 +80,11 @@ add_executable(telegram_finance_tracker_bot ${SRC_FILES} main.cpp
         include/bot/entity/TransactionsEntity.h
         include/migration/MigrationSQL.h
         src/migration/MigrationSQL.cpp
+        include/service/UserService.h
+        include/service/TransactionService.h
+        src/service/UserService.cpp
+        src/service/TransactionService.cpp
+        src/service/UserService.cpp
 )
 
 target_precompile_headers(telegram_finance_tracker_bot PRIVATE include/pch.h)
