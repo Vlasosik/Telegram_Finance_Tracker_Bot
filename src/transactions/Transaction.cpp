@@ -80,7 +80,8 @@ std::chrono::system_clock::time_point Transaction::convertStringToTimePoint(cons
 std::string Transaction::toString() const {
     std::ostringstream oss;
     oss << "Категорія: " << category
-            << " Сума: " << std::fixed << std::setprecision(1) << amount
-            << " Дата: " << convertTimeToString(date);
+            << " Сума: " << std::fixed << std::setprecision(2) << amount
+            << " Дата: " << convertTimeToString(date) << "\n";
+    oss << "----------------------\n";
     return oss.str();
 }

@@ -2,6 +2,8 @@
 #define CALLBACKLISTTRANSACTIONSFORWEEK_H
 #include "CallbackCommand.h"
 
+class Transaction;
+
 class CallbackListTransactionsForWeek : public CallbackCommand {
 public:
     void ExecuteCallback(TgBot::Bot &bot, const TgBot::CallbackQuery::Ptr &query) override;

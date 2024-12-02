@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users
 (
-    id bigserial PRIMARY KEY
+    id bigint PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS transactions

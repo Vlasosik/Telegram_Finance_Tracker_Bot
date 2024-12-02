@@ -7,8 +7,6 @@
 #include <sqlpp11/data_types/integral/data_type.h>
 #include <sqlpp11/data_types/text/data_type.h>
 
-#include <utility>
-
 namespace mydb::Transactions {
     struct Id {
         struct _alias_t {

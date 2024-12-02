@@ -11,7 +11,6 @@ bool EnteringRemoveHandler::canHandle(const int64_t userId, const TgBot::Message
 void EnteringRemoveHandler::handleMessage(TgBot::Bot &bot, const TgBot::Message::Ptr &message) {
     const int64_t userId = message->chat->id;
     auto &userManager = UserManager::getInstance();
-
     try {
         const std::string &text = message->text;
         std::istringstream iss(text);
@@ -29,6 +28,11 @@ void EnteringRemoveHandler::handleMessage(TgBot::Bot &bot, const TgBot::Message:
         }
         auto timePoint = std::chrono::system_clock::from_time_t(std::mktime(&tm));
         Transaction transaction(userId, category, amount, timePoint);
+
+        if (!userManager.transactionExists(userId, transaction)) {
+            auto sendMessage = bot.getApi().sendMessage(userId, "Транзакція не знайдена.");
+            return;
+        }
         userManager.removeTransaction(userId, transaction);
         userManager.setState(userId, UserStateType::IDLE);
 

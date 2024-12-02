@@ -19,10 +19,10 @@ namespace mydb::Users {
             };
         };
 
-        using _traits = sqlpp::make_traits<sqlpp::bigint, sqlpp::tag::must_not_insert>;
+        using _traits = sqlpp::make_traits<sqlpp::bigint>;
     };
 
-    struct Users : sqlpp::table_t<Users, Id> {
+    struct TabUsers : sqlpp::table_t<TabUsers, Id> {
         using _value_type = sqlpp::no_value_t;
 
         struct _alias_t {
