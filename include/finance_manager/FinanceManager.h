@@ -6,14 +6,14 @@
 class FinanceManager {
     std::vector<Transaction> finance_manager;
 
-    bool isMonthPassed(int64_t userId);
-
-    bool isWeekPassed(int64_t userId);
-
 public:
     explicit FinanceManager() = default;
 
     explicit FinanceManager(std::vector<Transaction> financeManager);
+
+    bool isMonthPassed(int64_t userId);
+
+    bool isWeekPassed(int64_t userId);
 
     void addTransaction(int64_t userId, const std::string &category, double amount);
 
